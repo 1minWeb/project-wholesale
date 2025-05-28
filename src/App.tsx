@@ -172,11 +172,50 @@ const App: React.FC = () => {
               <span>Final: ₹{item.finalPrice}</span>
             </div>
             <div className="mt-2 flex justify-end gap-2">
-              <button onClick={() => startEdit(item.id)} className="text-blue-600"><Edit3 size={18} /></button>
-              <button onClick={() => deleteProduct(item.id)} className="text-red-600"><Trash2 size={18} /></button>
+              <button onClick={() => startEdit(item.id)} aria-label="Edit product" className="text-blue-600"><Edit3 size={18} /></button>
+              <button aria-label='Delete' onClick={() => deleteProduct(item.id)} className="text-red-600"><Trash2 size={18} /></button>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Table for Desktop View */}
+      <div className="hidden md:block overflow-x-auto mt-6">
+        <table className="min-w-full bg-white rounded shadow text-sm">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="px-3 py-2">#</th>
+              <th className="px-3 py-2">Name</th>
+              <th className="px-3 py-2">Base</th>
+              <th className="px-3 py-2">P+10</th>
+              <th className="px-3 py-2">15% Aft</th>
+              <th className="px-3 py-2">20% Aft</th>
+              <th className="px-3 py-2">25% Aft</th>
+              <th className="px-3 py-2">Final</th>
+              <th className="px-3 py-2">Category</th>
+              <th className="px-3 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentData.map(item => (
+              <tr key={item.id} className="border-t hover:bg-gray-50">
+                <td className="px-3 py-2">{item.number}</td>
+                <td className="px-3 py-2">{item.name}</td>
+                <td className="px-3 py-2">₹{item.basePrice}</td>
+                <td className="px-3 py-2">₹{item.pPlus10}</td>
+                <td className="px-3 py-2">₹{item.markup15After}</td>
+                <td className="px-3 py-2">₹{item.markup20After}</td>
+                <td className="px-3 py-2">₹{item.markup25After}</td>
+                <td className="px-3 py-2">₹{item.finalPrice}</td>
+                <td className="px-3 py-2">{item.category}</td>
+                <td className="px-3 py-2 space-x-2">
+                  <button aria-label='edit' className="text-blue-600" onClick={() => startEdit(item.id)}><Edit3 size={16} /></button>
+                  <button aria-label='delete' className="text-red-600" onClick={() => deleteProduct(item.id)}><Trash2 size={16} /></button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Pagination */}
@@ -190,7 +229,7 @@ const App: React.FC = () => {
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl relative animate-slideIn">
-            <button className="absolute top-2 right-2 text-gray-600" onClick={() => setShowForm(false)}><X size={20} /></button>
+            <button aria-label='Close' className="absolute top-2 right-2 text-gray-600" onClick={() => setShowForm(false)}><X size={20} /></button>
             <h2 className="text-xl font-semibold mb-4">{editingId ? 'Edit' : 'Add'} Product</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input type="text" placeholder="Number" value={newProduct.number} onChange={e => setNewProduct({ ...newProduct, number: e.target.value })} className="p-2 border rounded" />
